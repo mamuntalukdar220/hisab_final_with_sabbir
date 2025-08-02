@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+<html lang="bn">
+<head>
+<meta charset="utf-8"/>
+<title>📊 মামুন ভাই - কাজের হিসাব</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<style>
+    :root {
+      --clr-body-bg: #dff9fb;
+      --clr-money-bg: #d4efdf;
+      --clr-bill-bg: #fef5e7;
+      --clr-summary-bg: #f9ebea;
+      --clr-accent-1: #ff5722;
+      --clr-accent-2: #28a745;
+      --clr-accent-3: #ff9800;
+      --clr-accent-4: #9c27b0;
+      --clr-accent-5: #ff4081;
+      --clr-accent-6: #00bcd4;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 10px;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      background: linear-gradient(to right, #ff0000, #ff8c00, #ffff00);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: bold;
+      font-size: 30px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    h3 {
+      margin-top: 0;
+      text-align: center;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid #ccc;
+    }
+    select[multiple] {
+      height: 110px;
+    }
+    button {
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    button:hover {
+      opacity: 0.85;
+    }
+    .btn-blue {
+      background: var(--clr-accent-1);
+    }
+    .btn-green {
+      background: var(--clr-accent-2);
+    }
+    .btn-orange {
+      background: var(--clr-accent-3);
+    }
+    .btn-purple {
+      background: var(--clr-accent-4);
+    }
+    .btn-pink {
+      background: var(--clr-accent-5);
+    }
+    .btn-cyan {
+      background: var(--clr-accent-6);
+    }
+    section {
+      background: #fff;
+      padding: 18px 15px 25px 15px;
+      margin-bottom: 28px;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+    section.sec-body {
+      background: var(--clr-body-bg);
+    }
+    section.sec-money {
+      background: var(--clr-money-bg);
+    }
+    section.sec-bill {
+      background: var(--clr-bill-bg);
+    }
+    section.sec-summary {
+      background: var(--clr-summary-bg);
+    }
+    .top-nav {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .top-nav button {
+      width: auto;
+      padding: 10px 16px;
+      font-size: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: #fff;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+    th {
+      background: rgba(0, 0, 0, 0.15);
+      color: #000;
+      font-weight: bold;
+    }
+    tfoot td {
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.08);
+    }
+    .del-btn {
+      width: auto;
+      padding: 2px 8px;
+      font-size: 12px;
+      line-height: 1.2;
+      background: #ff5252;
+      border-radius: var(--radius-sm);
+    }
+    .share-btn {
+      margin-top: 15px;
+      width: auto;
+      display: inline-block;
+    }
+    @media (max-width: 480px) {
+      th,
+      td {
+        font-size: 13px;
+        padding: 6px;
+      }
+      input,
+      select,
+      button {
+        font-size: 15px;
+      }
+      .top-nav button {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script></head>
+<body>
+<h2>📊 মামুন ভাই - কাজের হিসাব</h2>
+<div class="top-nav">
+<button class="btn-blue" onclick="scrollToSection('bodySection')">১. বডির হিসাব</button>
+<button class="btn-green" onclick="scrollToSection('moneySection')">২. টাকার হিসাব</button>
+<button class="btn-orange" onclick="scrollToSection('billSection')">৩. বিলের হিসাব</button>
+<button class="btn-pink" onclick="scrollToSection('summarySection')">৪. সাপ্তাহিক সারাংশ</button>
+<button class="btn-cyan" onclick="scrollToSection('takenSection')">৫.  কোম্পানি থেকে টাকা নেওয়ার হিসাব</button></div>
+<section class="sec-body" id="bodySection">
+<h3>১. বডির হিসাব</h3>
+<label>তারিখ:</label>
+<input id="bodyDate" type="date"/>
+<label>কে কে কাজ করেছে:</label>
+<select id="bodyWorkers" multiple="">
+<option value="মামুন">মামুন</option>
+<option value="আকরাম">আকরাম</option>
+<option value="অপু">অপু</option>
+<option value="সাব্বির">সাব্বির</option>
+</select>
+<label>সিঙ্গেল বডি:</label>
+<input id="singleBody" type="number" value="0"/>
+<label>ডাবল বডি:</label>
+<input id="doubleBody" type="number" value="0"/>
+<button class="btn-blue" onclick="addBody()">যোগ করুন</button>
+<div id="bodyCaptureArea">
+<table>
+<thead>
+<tr>
+<th>তারিখ</th>
+<th>কর্মী</th>
+<th>সিঙ্গেল</th>
+<th>ডাবল</th>
+<th>মোট বডি</th>
+<th>মোট টাকা</th>
+<th>❌</th>
+</tr>
+</thead>
+<tbody id="bodyTable"></tbody>
+<tfoot>
+<tr>
+<td colspan="2"><strong>মোট</strong></td>
+<td id="totalSingle"></td>
+<td id="totalDouble"></td>
+<td id="totalBodyCount"></td>
+<td id="totalBodyBill">৳0</td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+</div>
+<button class="btn-purple share-btn" onclick="copyReport()">📋 কপি রিপোর্ট</button>
+<button class="btn-purple share-btn" onclick="downloadReport()">📥 ডাউনলোড রিপোর্ট</button>
+</section>
+<section class="sec-money" id="moneySection">
+<h3>২. টাকার হিসাব</h3>
+<label>তারিখ:</label>
+<input id="moneyDate" type="date"/>
+<label>নাম:</label>
+<select id="moneyName">
+<option value="মামুন">মামুন</option>
+<option value="আকরাম">আকরাম</option>
+<option value="অপু">অপু</option>
+<option value="সাব্বির">সাব্বির</option>
+</select>
+<label>পরিমাণ (৳):</label>
+<input id="moneyAmount" type="number"/>
+<button class="btn-green" onclick="addMoney()">যোগ করুন</button>
+<div id="moneyCaptureArea">
+<table>
+<thead>
+<tr>
+<th>তারিখ</th>
+<th>নাম</th>
+<th>টাকা</th>
+<th>❌</th>
+</tr>
+</thead>
+<tbody id="moneyTable"></tbody>
+<tfoot>
+<tr>
+<td colspan="2">মোট</td>
+<td id="totalMoney">৳0</td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+<div id="personTotals"></div>
+</div>
+<button class="btn-purple share-btn" onclick="copyReport()">📋 কপি রিপোর্ট</button>
+<button class="btn-purple share-btn" onclick="downloadReport()">📥 ডাউনলোড রিপোর্ট</button>
+</section>
+<section class="sec-bill" id="billSection">
+<h3>৩. বিলের হিসাব</h3>
+<label>তারিখ (শুরু):</label>
+<input id="billStart" type="date"/>
+<label>তারিখ (শেষ):</label>
+<input id="billEnd" type="date"/>
+<label>নাম:</label>
+<select id="billName">
+<option value="মামুন">মামুন</option>
+<option value="আকরাম">আকরাম</option>
+<option value="অপু">অপু</option>
+<option value="সাব্বির">সাব্বির</option>
+</select>
+<label>সিঙ্গেল বডি:</label>
+<input id="billSingle" type="number" value="0"/>
+<label>ডাবল বডি:</label>
+<input id="billDouble" type="number" value="0"/>
+<label>নিয়েছে (অগ্রিম):</label>
+<input id="billAdvance" type="number" value="0"/>
+<button class="btn-orange" onclick="addBill()">যোগ করুন</button>
+<div id="billCaptureArea">
+<table>
+<thead>
+<tr>
+<th>নাম</th>
+<th>তারিখ</th>
+<th>সিঙ্গেল</th>
+<th>ডাবল</th>
+<th>মোট বিল</th>
+<th>নিয়েছে</th>
+<th>পাওনা</th>
+<th>❌</th>
+</tr>
+</thead>
+<tbody id="billTable"></tbody>
+</table>
+</div>
+<button class="btn-purple share-btn" onclick="copyReport()">📋 কপি রিপোর্ট</button>
+<button class="btn-purple share-btn" onclick="downloadReport()">📥 ডাউনলোড রিপোর্ট</button>
+</section>
+<section class="sec-summary" id="summarySection">
+<h3>৪. সাপ্তাহিক বিল সারাংশ</h3>
+<div id="summaryArea">
+<table>
+<thead>
+<tr>
+<th>মোট সিঙ্গেল</th>
+<th>মোট ডাবল</th>
+<th>মোট বিল</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="sumSingle">0</td>
+<td id="sumDouble">0</td>
+<td id="sumTotal">৳0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<button class="btn-purple share-btn" onclick="shareReport('summaryArea')">📤 শেয়ার করুন</button>
+</section>
+<section class="sec-money" id="takenSection">
+<h3>৫. কোম্পানি থেকে টাকা  নেওয়ার হিসাব</h3>
+<label>তারিখ:</label>
+<input id="takenDate" type="date"/>
+<label>পরিমাণ (৳):</label>
+<input id="takenAmount" type="number"/>
+<button class="btn-cyan" onclick="addTaken()">➕ যোগ করুন</button>
+<div id="takenCaptureArea">
+<table>
+<thead><tr><th>তারিখ</th><th>টাকা</th><th>❌</th></tr></thead>
+<tbody id="takenTable"></tbody>
+<tfoot><tr><td>মোট</td><td id="totalTaken">৳0</td><td></td></tr></tfoot>
+</table>
+</div>
+<button class="btn-purple share-btn" onclick="copyReport()">📋 কপি রিপোর্ট</button>
+<button class="btn-purple share-btn" onclick="downloadReport()">📥 ডাউনলোড রিপোর্ট</button>
+</section><script>
+let takenData = JSON.parse(localStorage.getItem("takenData") || "[]");
+
+function addTaken(){
+  const date = document.getElementById("takenDate").value;
+  const amount = parseInt(document.getElementById("takenAmount").value) || 0;
+  if (!date || !amount) {
+    alert("তারিখ ও পরিমাণ দিন!");
+    return;
+  }
+  takenData.push({date, amount});
+  saveAll();
+}
+
+function deleteTaken(i){
+  if (confirm("মুছবেন?")) {
+    takenData.splice(i, 1);
+    saveAll();
+  }
+}
+
+    let bodyData = JSON.parse(localStorage.getItem("bodyData") || "[]");
+    let moneyData = JSON.parse(localStorage.getItem("moneyData") || "[]");
+    let billData = JSON.parse(localStorage.getItem("billData") || "[]");
+
+    function saveAll() {
+  localStorage.setItem('takenData', JSON.stringify(takenData));
+      localStorage.setItem("bodyData", JSON.stringify(bodyData));
+      localStorage.setItem("moneyData", JSON.stringify(moneyData));
+      localStorage.setItem("billData", JSON.stringify(billData));
+      renderAll();
+    }
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+
+    function addBody() {
+      const date = document.getElementById("bodyDate").value;
+      const workers = Array.from(
+        document.getElementById("bodyWorkers").selectedOptions
+      ).map((o) => o.value);
+      const single = parseInt(document.getElementById("singleBody").value) || 0;
+      const double = parseInt(document.getElementById("doubleBody").value) || 0;
+      if (!date || workers.length === 0) {
+        alert("তারিখ ও কর্মী নির্বাচন করুন!");
+        return;
+      }
+      const total = single * 450 + double * 500;
+      bodyData.push({ date, workers, single, double, total });
+      saveAll();
+    }
+
+    function deleteBody(i) {
+      if (confirm("মুছবেন?")) {
+        bodyData.splice(i, 1);
+        saveAll();
+      }
+    }
+
+    function addMoney() {
+      const date = document.getElementById("moneyDate").value;
+      const name = document.getElementById("moneyName").value;
+      const amount = parseInt(document.getElementById("moneyAmount").value) || 0;
+      if (!date || !name || !amount) {
+        alert("সব তথ্য দিন!");
+        return;
+      }
+      moneyData.push({ date, name, amount });
+      saveAll();
+    }
+
+    function deleteMoney(i) {
+      if (confirm("মুছবেন?")) {
+        moneyData.splice(i, 1);
+        saveAll();
+      }
+    }
+
+    const billRates = {
+      মামুন: { single: 120, double: 140 },
+      আকরাম: { single: 180, double: 195 },
+      অপু: { single: 150, double: 165 },
+      সাব্বির: { single: 450, double: 500 },
+    };
+
+    function addBill() {
+      const name = document.getElementById("billName").value;
+      const date =
+        document.getElementById("billStart").value +
+        " - " +
+        document.getElementById("billEnd").value;
+      const single = parseInt(document.getElementById("billSingle").value) || 0;
+      const double = parseInt(document.getElementById("billDouble").value) || 0;
+      const advance = parseInt(document.getElementById("billAdvance").value) || 0;
+      const total = single * billRates[name].single + double * billRates[name].double;
+      const due = total - advance;
+      billData.push({ name, date, single, double, total, advance, due });
+      saveAll();
+    }
+
+    function deleteBill(i) {
+      if (confirm("মুছবেন?")) {
+        billData.splice(i, 1);
+        saveAll();
+      }
+    }
+
+    function renderAll() {
+
+      const tt = document.getElementById("takenTable");
+      tt.innerHTML = "";
+      let totalTaken = 0;
+      takenData.forEach((e, i) => {
+        totalTaken += e.amount;
+        tt.innerHTML += `<tr><td>${e.date}</td><td>৳${e.amount}</td><td><button class='del-btn' onclick='deleteTaken(${i})'>❌</button></td></tr>`;
+      });
+      document.getElementById("totalTaken").innerText = "৳" + totalTaken;
+    
+      // Body Section
+      const bt = document.getElementById("bodyTable");
+      bt.innerHTML = "";
+      let totalSingle = 0,
+        totalDouble = 0,
+        totalTk = 0;
+      bodyData.forEach((e, i) => {
+        totalSingle += e.single;
+        totalDouble += e.double;
+        totalTk += e.total;
+        bt.innerHTML += `<tr>
+          <td>${e.date}</td>
+          <td>${e.workers.join(", ")}</td>
+          <td>${e.single}</td>
+          <td>${e.double}</td>
+          <td>${e.single + e.double}</td>
+          <td>৳${e.total}</td>
+          <td><button class='del-btn' onclick='deleteBody(${i})'>❌</button></td>
+        </tr>`;
+      });
+      document.getElementById("totalSingle").innerText = totalSingle;
+      document.getElementById("totalDouble").innerText = totalDouble;
+      document.getElementById("totalBodyCount").innerText = totalSingle + totalDouble;
+      document.getElementById("totalBodyBill").innerText = "৳" + totalTk;
+
+      // Money Section
+      const mt = document.getElementById("moneyTable");
+      mt.innerHTML = "";
+      let totalMoney = 0;
+      const personTotals = {};
+      moneyData.forEach((e, i) => {
+        totalMoney += e.amount;
+        personTotals[e.name] = (personTotals[e.name] || 0) + e.amount;
+        mt.innerHTML += `<tr>
+          <td>${e.date}</td>
+          <td>${e.name}</td>
+          <td>৳${e.amount}</td>
+          <td><button class='del-btn' onclick='deleteMoney(${i})'>❌</button></td>
+        </tr>`;
+      });
+      document.getElementById("totalMoney").innerText = "৳" + totalMoney;
+      let pHTML = "<h4>💰 ব্যক্তিগত মোট টাকা</h4><ul>";
+      for (let n in personTotals) {
+        pHTML += `<li><strong>${n}:</strong> ৳${personTotals[n]}</li>`;
+      }
+      pHTML += "</ul>";
+      document.getElementById("personTotals").innerHTML = pHTML;
+
+      // Bill Section
+      const blt = document.getElementById("billTable");
+      blt.innerHTML = "";
+      let totalBill = 0,
+        totalAdvance = 0;
+      billData.forEach((e, i) => {
+        totalBill += e.total;
+        totalAdvance += e.advance;
+        blt.innerHTML += `<tr>
+          <td>${e.name}</td>
+          <td>${e.date}</td>
+          <td>${e.single}</td>
+          <td>${e.double}</td>
+          <td>৳${e.total}</td>
+          <td>৳${e.advance}</td>
+          <td>৳${e.due}</td>
+          <td><button class='del-btn' onclick='deleteBill(${i})'>❌</button></td>
+        </tr>`;
+      });
+
+      // Summary Section
+      document.getElementById("sumSingle").innerText = bodyData.reduce(
+        (acc, e) => acc + e.single,
+        0
+      );
+      document.getElementById("sumDouble").innerText = bodyData.reduce(
+        (acc, e) => acc + e.double,
+        0
+      );
+      document.getElementById("sumTotal").innerText = "৳" + totalBill;
+    }
+
+    // Initialize rendering when page loads
+    window.onload = renderAll;
+
+    // Placeholder for shareReport function
+    function shareReport(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) return alert("সেকশন পাওয়া যায়নি!");
+
+  const html = section.innerHTML;
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = html;
+  const text = tempDiv.innerText.trim();
+
+  if (navigator.share) {
+    navigator
+      .share({
+        title: "📊 কাজের রিপোর্ট",
+        text: text,
+      })
+      .then(() => console.log("রিপোর্ট শেয়ার হয়েছে!"))
+      .catch((err) => console.error("শেয়ার ব্যর্থ:", err));
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("✅ রিপোর্ট কপি হয়েছে! এখন যেকোনো অ্যাপে পেস্ট করতে পারবেন।");
+    });
+  }
+}
+  
+
+
+function downloadReport() {
+  const section = event.target.closest("section");
+  const captureArea = section.querySelector("div[id$='CaptureArea']") || section;
+
+  html2canvas(captureArea).then(canvas => {
+    const link = document.createElement('a');
+    link.download = "report.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+}
+</script><footer style="text-align:center; margin-top:30px; padding:10px; font-size:14px; color:#000000;">
+  © ২০২৫ – ডিজাইনার : <strong>মামুন<strong>
+</strong></strong></footer>
+</body>
+</html>
